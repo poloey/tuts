@@ -180,6 +180,103 @@ class GenericController {
 ~~~
 
 
+# Seeder
+
+make a seeder class using php artisan 
+
+~~~bash
+php artisan make:seeder artisan 
+~~~
+
+seeding data  inside seeder class
+
+~~~php
+public function run()
+{
+  DB::table('users')->insert([
+    'name' => 'shibu',
+    'email' => 'polodev10@gmail.com'
+  ]);
+}
+~~~
+calling seeder class from  databaseSeeder class 
+~~~php
+public function run()
+{
+  $this->call(UserTableSeeder::class);
+}
+~~~
+to seed database 
+
+~~~bash
+php artisan db:seed
+~~~
+
+migration with seed
+~~~php
+php artisan migrate --seed
+php artisan migrate:refresh --seed
+~~~
+
+### homested and  vagrant
+
+download homested vagrant box
+~~~php
+vagrant box add laravel/homestead
+~~~
+
+git clone homestead from laravel official website     
+
+~~~php
+git clone https://homestead_link 
+~~~
+
+checkout to laravel stable one
+~~~bash
+git checkout v5.5.0
+~~~
+
+run `init.sh` file for linux or mac user. run `init.bat` for windows user to generate Homestead.yaml file       
+
+~~~php
+bash init.sh
+~~~
+
+Now generate rsa key (in windows we have to use puttyGen)
+~~~bash
+mkdir ssh_vagrant
+cd ssh_vagrant
+ssh-keygen -t rsa 
+~~~ 
+
+after typing `ssh-keygen -t rsa` we will pass the `ssh_vagrant folder` absolute path which can be found by `pwd` command . with suffix `/id_rsa`
+~~~bash
+/Users/polodev/Desktop/ssh_vagrant/id_rsa
+~~~
+
+
+inside Homestead.yaml file 
+
+~~~yml
+authorize: /Users/polodev/Desktop/ssh_vagrant/id_rsa.pub
+keys: 
+  - /Users/polodev/Desktop/ssh_vagrant/id_rsa
+~~~
+configure `folders` and `sites` also inside Homestead.yaml file    
+
+now give credential to `.env` file.
+
+now start vagrant and do followings 
+
+~~~php
+vagrant up
+vagrant ssh
+cd code
+php artisan cache:clear
+php artisan config
+php artisan migrate
+php artisan db:seed
+~~~
 
 
 
@@ -195,10 +292,7 @@ class GenericController {
 
 
 
-
-
-
-
+ 
 
 
 
