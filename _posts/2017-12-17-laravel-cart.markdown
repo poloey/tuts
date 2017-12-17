@@ -138,11 +138,25 @@ Session::has('cart') ? Session::get('cart')->totalQty : '';
 
 ### function inside controller to get the cart view 
 
-
 ~~~php
+  public function getCart()
+  {
+    if (!Session::has('cart'))
+    {
+      return view('cart_page');
+    }
+
+    $oldCart = Session::get('cart');
+    $cart = new Cart($oldCart);
+    return view('cart_page', ['products' => $cart->items, 'totalPrice' => $cart->totalPrice]);
+  }
 ~~~
 
+### to destroy cart from session
 
+~~~php
+Session::forget('cart');
+~~~
 
 
 
